@@ -1,0 +1,4 @@
+version: '3'
+# volumes:
+#   database_data:
+#     driver: local
