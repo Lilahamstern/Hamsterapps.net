@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  ################################
+  #   Setup web container
+  ################################
+  web:
+    stdin_open: true
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web/src:/usr/src/app/src
+      - ./web/public:/usr/src/app/public
