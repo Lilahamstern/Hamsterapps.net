@@ -10,7 +10,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build ./web/ -t ${{ secrets.REGISTRY_HOST }}/web:${{ github.sha }}
+          docker build ./web/docker -f Dockerfile.prod -t ${{ secrets.REGISTRY_HOST }}/web:${{ github.sha }}
 
       - name: login to registry
         uses: azure/docker-login@v1
