@@ -1,6 +1,7 @@
 package main
 
 import (
+	database "github.com/lilahamstern/hamsterapps.net/server/internal/pkg/db/postgres"
 	"log"
 	"net/http"
 	"os"
@@ -18,6 +19,9 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
+
+	database.InitDB()
+	database.Migrate()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 

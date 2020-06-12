@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Users
+(
+
+    id BIGSERIAL NOT NULL,
+    username VARCHAR (127) NOT NULL UNIQUE,
+    email VARCHAR (127) NOT NULL UNIQUE,
+    password VARCHAR (127) NOT NULL,
+    PRIMARY KEY (id)
+)
