@@ -25,17 +25,17 @@ func (r *mutationResolver) CreateProject(ctx context.Context, input model.Create
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*model.Project, error) {
-	var projects []*model.Project
-	projects = append(projects, &model.Project{
-		ID:          "4771723",
-		Title:       "Testing",
-		Description: "lallala",
-		User: &model.User{
-			ID:       "1",
-			Username: "Lilahamstern",
-			Email:    "leo.ronnebro@hamsterapps.net",
-		},
-	})
+	var resProjects []*model.Project
+	dbProjects := projects.GetAll()
 
-	return projects, nil
+	for _, project := range dbProjects {
+		resProjects = append(resProjects, &model.Project{
+			ID:          strconv.FormatInt(project.ID, 10),
+			Title:       project.Title,
+			Description: project.Description,
+			User:        nil,
+		})
+	}
+
+	return resProjects, nil
 }
