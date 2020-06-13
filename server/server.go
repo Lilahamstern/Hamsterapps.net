@@ -1,15 +1,15 @@
 package main
 
 import (
+	"github.com/lilahamstern/hamsterapps.net/server/internal/auth"
+	. "github.com/lilahamstern/hamsterapps.net/server/internal/handler"
 	database "github.com/lilahamstern/hamsterapps.net/server/internal/pkg/db/postgres"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/lilahamstern/hamsterapps.net/server/graph"
-	"github.com/lilahamstern/hamsterapps.net/server/graph/generated"
+	"github.com/gin-gonic/gin"
 )
 
 const defaultPort = "8080"
@@ -20,14 +20,27 @@ func main() {
 		port = defaultPort
 	}
 
+	router := gin.Default()
+
+	router.Use(auth.Middleware())
+
 	database.InitDB()
 	database.Migrate()
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
-
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	router.POST("/query", GraphqlHandler())
+	router.GET("/", PlaygroundHandler())
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+
+	srv := &http.Server{
+		Addr:           ":" + port,
+		Handler:        router,
+		ReadTimeout:    60 * time.Second,
+		WriteTimeout:   60 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	if err := srv.ListenAndServe(); err != nil {
+		log.Panic(err)
+	}
 }
