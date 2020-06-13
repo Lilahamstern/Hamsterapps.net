@@ -3,7 +3,7 @@
 package model
 
 type LoginInput struct {
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -14,8 +14,13 @@ type Project struct {
 	User        *User  `json:"user"`
 }
 
+type RefreshTokenInput struct {
+	Token string `json:"token"`
+}
+
 type SignupInput struct {
 	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 

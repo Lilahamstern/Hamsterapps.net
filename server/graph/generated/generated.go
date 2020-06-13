@@ -46,6 +46,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateProject func(childComplexity int, input model.CreateProjectInput) int
 		Login         func(childComplexity int, input *model.LoginInput) int
+		RefreshToken  func(childComplexity int, input *model.RefreshTokenInput) int
 		Signup        func(childComplexity int, input model.SignupInput) int
 	}
 
@@ -71,6 +72,7 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	Signup(ctx context.Context, input model.SignupInput) (string, error)
 	Login(ctx context.Context, input *model.LoginInput) (string, error)
+	RefreshToken(ctx context.Context, input *model.RefreshTokenInput) (string, error)
 	CreateProject(ctx context.Context, input model.CreateProjectInput) (*model.Project, error)
 }
 type QueryResolver interface {
@@ -116,6 +118,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Login(childComplexity, args["input"].(*model.LoginInput)), true
+
+	case "Mutation.refreshToken":
+		if e.complexity.Mutation.RefreshToken == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_refreshToken_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RefreshToken(childComplexity, args["input"].(*model.RefreshTokenInput)), true
 
 	case "Mutation.signup":
 		if e.complexity.Mutation.Signup == nil {
@@ -264,12 +278,17 @@ var sources = []*ast.Source{
 
 input SignupInput {
     username: String!
+    email: String!
     password: String!
 }
 
 input LoginInput {
-    username: String!
+    email: String!
     password: String!
+}
+
+input RefreshTokenInput {
+    token: String!
 }
 
 type Query {
@@ -277,8 +296,10 @@ type Query {
 }
 
 type Mutation {
+
     signup(input: SignupInput!): String!
     login(input: LoginInput): String!
+    refreshToken(input: RefreshTokenInput): String!
 }
 
 
@@ -330,6 +351,20 @@ func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawAr
 	var arg0 *model.LoginInput
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalOLoginInput2ᚖgithubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐLoginInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_refreshToken_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.RefreshTokenInput
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalORefreshTokenInput2ᚖgithubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐRefreshTokenInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -468,6 +503,47 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().Login(rctx, args["input"].(*model.LoginInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_refreshToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_refreshToken_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RefreshToken(rctx, args["input"].(*model.RefreshTokenInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1961,15 +2037,33 @@ func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj in
 
 	for k, v := range asMap {
 		switch k {
-		case "username":
+		case "email":
 			var err error
-			it.Username, err = ec.unmarshalNString2string(ctx, v)
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
 		case "password":
 			var err error
 			it.Password, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputRefreshTokenInput(ctx context.Context, obj interface{}) (model.RefreshTokenInput, error) {
+	var it model.RefreshTokenInput
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "token":
+			var err error
+			it.Token, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1988,6 +2082,12 @@ func (ec *executionContext) unmarshalInputSignupInput(ctx context.Context, obj i
 		case "username":
 			var err error
 			it.Username, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "email":
+			var err error
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2057,6 +2157,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "login":
 			out.Values[i] = ec._Mutation_login(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "refreshToken":
+			out.Values[i] = ec._Mutation_refreshToken(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -2868,6 +2973,18 @@ func (ec *executionContext) unmarshalOLoginInput2ᚖgithubᚗcomᚋlilahamstern�
 		return nil, nil
 	}
 	res, err := ec.unmarshalOLoginInput2githubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐLoginInput(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalORefreshTokenInput2githubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐRefreshTokenInput(ctx context.Context, v interface{}) (model.RefreshTokenInput, error) {
+	return ec.unmarshalInputRefreshTokenInput(ctx, v)
+}
+
+func (ec *executionContext) unmarshalORefreshTokenInput2ᚖgithubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐRefreshTokenInput(ctx context.Context, v interface{}) (*model.RefreshTokenInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalORefreshTokenInput2githubᚗcomᚋlilahamsternᚋhamsterappsᚗnetᚋserverᚋgraphᚋmodelᚐRefreshTokenInput(ctx, v)
 	return &res, err
 }
 

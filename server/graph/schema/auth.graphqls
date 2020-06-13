@@ -6,12 +6,17 @@ type User {
 
 input SignupInput {
     username: String!
+    email: String!
     password: String!
 }
 
 input LoginInput {
-    username: String!
+    email: String!
     password: String!
+}
+
+input RefreshTokenInput {
+    token: String!
 }
 
 type Query {
@@ -19,8 +24,10 @@ type Query {
 }
 
 type Mutation {
+
     signup(input: SignupInput!): String!
     login(input: LoginInput): String!
+    refreshToken(input: RefreshTokenInput): String!
 }
 
 
