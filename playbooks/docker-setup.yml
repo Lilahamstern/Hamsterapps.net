@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - ../vars/docker-setup.yml
+    - ../vars/global.yml
+
+
+  tasks:
+    - name: Setup stable repo for docker.
+      shell: 'dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo'
+      args:
+        warn: false
+
+    - name: Install docker and deps.
+      dnf:
+        name: "{{ packages }}"
+        state: latest
+
+    - name: Make sure 'docker' group is avaible.
+      group:
+        name: docker
+        state: present
+
+    - name: Add 'docker' group to user.
+      user:
+        name: "{{ user }}"
+        append: yes
+        groups: docker
+        state: present
