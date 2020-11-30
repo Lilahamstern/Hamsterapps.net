@@ -1,0 +1,107 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - ../vars/global.yml
+    - ../vars/setup.yml
+
+  tasks:
+    - name: Import Remi GPG Key.
+      rpm_key:
+        key: "{{ item.gpg_url }}"
+        state: present
+      with_items:
+        - gpg_url: "http://rpms.remirepo.net/RPM-GPG-KEY-remi2018"
+        - gpg_url: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8"
+
+    - name: Install EPEL repo.
+      dnf:
+        name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+        state: present
+
+    - name: Install Remi repo.
+      dnf:
+        name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+        state: present
+
+    - name: Update dnf cache.
+      dnf:
+        update_cache: yes
+
+    - name: Performe system updates.
+      dnf:
+        name: "*"
+        state: latest
+
+    - name: Disable password authentication.
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '#?{{ item.name }}'
+        line: '{{ item.name }} {{ item.value }}'
+      with_items:
+        - { name: 'PermitRootLogin', value: 'prohibit-password' }
+        - { name: 'PasswordAuthentication', value: 'no' }
+
+    - name: Restart server SSH.
+      service:
+        name: sshd
+        state: restarted
+        enabled: yes
+
+    # If rpcbind isnt used it is just another security risk.
+    - name: Disable rpcbind.
+      service:
+        name: rpcbind
+        state: stopped
+        enabled: no
+
+    - name: Make sure we have the 'wheel' group.
+      group:
+        name: wheel
+        state: present
+
+    - name: Create a new user with sudo privileges.
+      user:
+        name: "{{ user }}"
+        state: present
+        groups: wheel
+        append: true
+        create_home: true
+        shell: /bin/bash
+
+    - name: Set authorized key for remote user.
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ local_ssh_key }}"
+
+    - name: Install required system packages.
+      dnf:
+        name: "{{ sys_packages }}"
+        state: latest
+
+    - name: UFW - Allow only SSH Connections.
+      ufw:
+        rule: allow
+        name: ssh
+
+    - name: UFW - Deny all other incomming traffic by default (Should be configured per server type setup at a later stage).
+      ufw:
+        state: enabled
+        policy: deny
+        direction: incoming
+
+    - name: Configure Fail2Ban.
+      copy:
+        src: ../config/fail2ban/jail.local
+        dest: /etc/fail2ban/jail.local
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+
+    - name: Enable Fail2Ban.
+      service:
+        name: fail2ban
+        state: restarted
+        enabled: yes
