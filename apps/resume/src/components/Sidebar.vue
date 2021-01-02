@@ -8,15 +8,14 @@
 
     <div class="block w-1/2 pb-5 mx-auto text-left">
       <h3 class="pb-3 text-2xl text-center">Contact</h3>
-      <span><i class="fas fa-coffee"></i>Test</span>
       <p>{{ address }}</p>
       <p>{{ phone }}</p>
       <p><a :href='mail'>{{ email }}</a></p>
     </div>
 
-    <p v-for='link in links' :key="link.name" class="link">
-      <i class="fab fa-coffee"></i>
-      <a :href='link.url'>{{ link.name }}</a>
+    <p v-for='link in links' :key="link.name" class="text-lg">
+      <i :class="link.icon" class="mr-4"></i>
+      <a :href='link.url' class="link">{{ link.name }}</a>
     </p>
 
   </div>
@@ -28,13 +27,14 @@ import { defineComponent } from 'vue'
 interface Link {
   url: String,
   name: String,
+  icon: String
 }
 
 const Sidebar = defineComponent({
   data() {
     return {
       phone: '+46 (0)73 - 834 45 66',
-      address: 'Sannegårdsgatan 20, 417 61 Gotenburg',
+      address: 'Sannegårdsgatan 20, 417 61 Gothenburg',
       mail: 'mailto:leo.ronnebro@nerdyhamster.net',
       links: new Array<Link>()
     }
@@ -55,15 +55,18 @@ const Sidebar = defineComponent({
   created() {
     this.links = [{
       url: "https://github.com/TheNerdyHamster",
-      name: "Github"
+      name: "Github",
+      icon: "fab fa-github"
     },
     {
       url: "https://linkedin.com",
-      name: "Linkedin"
+      name: "Linkedin",
+      icon: "fab fa-linkedin"
     },
     {
       url: "https://nerdyhamster.net",
-      name: "Website"
+      name: "Website",
+      icon: "fas fa-globe"
     }
     ]
   }
