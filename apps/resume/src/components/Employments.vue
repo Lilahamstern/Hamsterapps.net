@@ -6,7 +6,7 @@
         <span class="font-semibold">{{ employment.title }} - {{ employment.type }}</span>, <span class="font-bold">{{ employment.company }}</span>, <span class="font-semibold">{{ employment.started }} - {{ employment.ended }}</span>
       </p>
       <div class="block mx-auto">
-        <p class="max-w-xl p-2 text-sm">{{ employment.description }}</p>
+        <p class="max-w-xl py-2 text-sm">{{ employment.description }}</p>
       </div>
     </div>
   </div>

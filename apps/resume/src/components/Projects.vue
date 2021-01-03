@@ -6,7 +6,7 @@
         <span class="font-semibold">{{ project.role }} - {{ project.title }}</span>, <span class="font-bold">{{ project.type }}</span>, <span class="font-semibold">{{ project.started }} - {{ project.ended }}</span>
       </p>
       <div class="block mx-auto">
-        <p class="max-w-xl p-2 text-sm">{{ project.description }}</p>
+        <p class="max-w-xl py-2 text-sm">{{ project.description }}</p>
         <p class="text-sm">Technologies: <span>{{ getTechnologies( project.technologies ) }} </span> </p>
         <a :href="project.link">Source code</a>
       </div>
