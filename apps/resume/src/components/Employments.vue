@@ -1,10 +1,13 @@
 <template>
-  <div v-for="(employment, index) in employments" :key="index" class="text-gray-100">
-    <div class="flex flex-col justify-items-center">
-      <p class="text-lg">
+  <h1 class="pb-2 ml-2 text-2xl font-semibold text-center text-gray-300">Employments</h1>
+  <div v-for="(employment, index) in employments" :key="index" class="block max-w-3xl mx-auto text-gray-100">
+    <div class="flex flex-col">
+      <p class="text-lg text-center">
         <span class="font-semibold">{{ employment.title }} - {{ employment.type }}</span>, <span class="font-bold">{{ employment.company }}</span>, <span class="font-semibold">{{ employment.started }} - {{ employment.ended }}</span>
       </p>
-      <p class="w-3/4 p-2">{{ employment.description }}</p>
+      <div class="block mx-auto">
+        <p class="max-w-xl p-2 text-sm">{{ employment.description }}</p>
+      </div>
     </div>
   </div>
 </template>
