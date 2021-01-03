@@ -2,6 +2,7 @@
   <div class="h-screen">
     <Header :name='name'/>
     <Employments />
+    <Projects />
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { defineComponent } from 'vue';
 import Header from './components/Header.vue'
 import Employments from './components/Employments.vue'
+import Projects from './components/Projects.vue'
 
 const App = defineComponent({
   components: {
     Header,
-    Employments
+    Employments,
+    Projects,
   },
   data() {
     return {
