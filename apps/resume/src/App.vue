@@ -3,6 +3,7 @@
     <Header :name='name'/>
     <Employments />
     <Projects />
+    <Educations />
   </div>
 </template>
 
@@ -11,12 +12,14 @@ import { defineComponent } from 'vue';
 import Header from './components/Header.vue'
 import Employments from './components/Employments.vue'
 import Projects from './components/Projects.vue'
+import Educations from './components/Education.vue'
 
 const App = defineComponent({
   components: {
     Header,
     Employments,
     Projects,
+    Educations,
   },
   data() {
     return {
