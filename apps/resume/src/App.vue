@@ -4,6 +4,7 @@
     <Employments />
     <Projects />
     <Educations />
+    <Footer />
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import Header from './components/Header.vue'
 import Employments from './components/Employments.vue'
 import Projects from './components/Projects.vue'
 import Educations from './components/Education.vue'
+import Footer from './components/Footer.vue'
 
 const App = defineComponent({
   components: {
@@ -20,6 +22,7 @@ const App = defineComponent({
     Employments,
     Projects,
     Educations,
+    Footer,
   },
   data() {
     return {
