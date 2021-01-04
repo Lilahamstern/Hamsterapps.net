@@ -36,7 +36,7 @@ const Employments = defineComponent({
         company: "Lindholmen Science Park",
         started: "March 2020",
         ended: "Present",
-        description: "Ipsam similique atque et voluptatem quia accusantium consequatur iusto. Sunt natus dolorem est. Cum ea non voluptatem atque. Doloribus eos harum minima. Adipisci maiores omnis incidunt eos vel quia qui.…"
+        description: "Techinal support at webinars such as Lindholmen Software Development Day, A Great Day 2020 and Lindholmen Open Days. I do also provide service for equipment and upgrade to newer. Helping colleagues with techinal questions and problem that can occur during a day."
       }] as Array<Employement>
 
     }
