@@ -1,14 +1,16 @@
 <template>
-  <h1 class="pb-2 ml-2 text-2xl font-semibold text-center text-gray-300">Projects</h1>
-  <div v-for="(project, index) in projects" :key="index" class="block max-w-3xl mx-auto text-gray-100">
-    <div class="flex flex-col">
-      <p class="text-lg text-center">
-        <span class="font-semibold">{{ project.role }} - {{ project.title }}</span>, <span class="font-bold">{{ project.type }}</span>, <span class="font-semibold">{{ project.started }} - {{ project.ended }}</span>
-      </p>
-      <div class="block mx-auto">
-        <p class="max-w-xl py-2 text-sm">{{ project.description }}</p>
-        <p class="text-sm">Technologies: <span>{{ getTechnologies( project.technologies ) }} </span> </p>
-        <a :href="project.link">Source code</a>
+  <div class="block max-w-2xl mx-auto my-4">
+    <h1 class="ml-2 text-2xl font-semibold text-gray-300">Projects</h1>
+    <div v-for="(project, index) in projects" :key="index" class="block max-w-3xl py-2 mx-auto text-gray-100">
+      <div class="flex flex-col">
+        <p class="ml-6 text-lg">
+          <span class="font-semibold">{{ project.role }} - {{ project.title }}</span>, <span class="font-bold">{{ project.type }}</span>, <span class="font-semibold">{{ project.started }} - {{ project.ended }}</span>
+        </p>
+        <div class="block mx-auto">
+          <p class="max-w-xl py-2 text-sm">{{ project.description }}</p>
+          <p class="text-sm">Technologies: <span>{{ getTechnologies( project.technologies ) }} </span> </p>
+          <a :href="project.link">Source code</a>
+        </div>
       </div>
     </div>
   </div>
