@@ -10,26 +10,27 @@
     <div class="flex flex-row justify-center my-3">
       <div>
         <h2 class="pb-3 text-3xl">{{ name }}</h2>
-        <div class="block mx-auto rounded-lg shadow-lg w-28 h-28">
-          <img src="../assets/profile.jpg" alt="Profile picture" class="rounded-lg">
-        </div>
       </div>
     </div>
 
-    <div class="flex flex-col justify-center w-full text-sm text-center">
-      <p class="py-1">
-        <i class="mr-2 fas fa-map-marker-alt"></i>
-        {{ address }}
-      </p>
-      <p class="py-1">
-        <i class="mr-2 fas fa-envelope"></i>
-        <a :href="mail">{{ email }}</a>
-      </p>
-      <p class="py-1">
-        <i class="mr-2 fas fa-phone"></i>
-        {{ phone }}
-      </p>
-    </div>
+
+        <div class="block mx-auto rounded-lg shadow-lg w-28 h-28">
+          <img src="../assets/profile.jpg" alt="Profile picture" class="rounded-lg">
+        </div>
+        <div class="flex flex-col justify-center w-full text-sm text-center">
+          <p class="py-1">
+            <i class="mr-2 fas fa-map-marker-alt"></i>
+            {{ address }}
+          </p>
+          <p class="py-1">
+            <i class="mr-2 fas fa-envelope"></i>
+            <a :href="mail">{{ email }}</a>
+          </p>
+          <p class="py-1">
+            <i class="mr-2 fas fa-phone"></i>
+            {{ phone }}
+          </p>
+        </div>
   </div>
 </template>
 

@@ -4,7 +4,7 @@
     <div v-for="(project, index) in projects" :key="index" class="block max-w-3xl py-2 mx-auto text-gray-100">
       <div class="flex flex-col">
         <p class="ml-6 text-lg">
-          <span class="font-semibold">{{ project.role }} - {{ project.title }}</span>, <span class="font-bold">{{ project.type }}</span>, <span class="font-semibold">{{ project.started }} - {{ project.ended }}</span>
+          <span class="font-semibold">{{ project.role }} - {{ project.title }}</span>, <span class="text-base font-bold text-gray-400">{{ project.type }}</span>, <span class="font-semibold">{{ project.started }} - {{ project.ended }}</span>
         </p>
         <div class="block mx-auto">
           <p class="max-w-xl py-2 text-sm">{{ project.description }}</p>
@@ -35,26 +35,6 @@ const Projects  = defineComponent({
   data() {
     return {
       projects: [
-        {
-          role: "Maintiner",
-          title: "Dotfiles",
-          type: "",
-          started: "October 2020",
-          ended: "Present",
-          description: "My current dotfiles does utilize ansible for installation and upgrade processes, this project is mostly mean't for my devices. But for other people to take a look to either get inspiration for their config files, or just take them.",
-          technologies: ["Linux", "Ansible", "Git"],
-          link: "https://github.com/TheNerdyHamster/Nerdyhamster.net",
-        },
-        {
-          role: "Creator",
-          title: "Nerdyhamster.net",
-          type: "Personal Website",
-          started: "June 2019",
-          ended: "Present",
-          description: "Nerdyhamster.net is my personal website where I will have a project portfoilio, etc etc etc etcet dwadaklwjdalkwdjl djawdlajdl daljwdajwdlka wdlkawd aklwdj alkwdj alkwdjl",
-          technologies: ["Docker", "Git", "Ansible", "Vue"],
-          link: "https://github.com/TheNerdyHamster/Nerdyhamster.net",
-        },
         {
           role: "Developer",
           title: "CED",

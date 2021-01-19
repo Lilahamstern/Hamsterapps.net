@@ -4,7 +4,7 @@
     <div v-for="(employment, index) in employments" :key="index" class="block py-2 mx-auto text-gray-100">
       <div class="flex flex-col">
         <p class="ml-6 text-lg">
-          <span class="font-semibold">{{ employment.title }} - {{ employment.type }}</span>, <span class="font-bold">{{ employment.company }}</span>, <span class="font-semibold">{{ employment.started }} - {{ employment.ended }}</span>
+          <span class="font-semibold">{{ employment.title }} - {{ employment.type }}</span>, <span class="text-base font-bold text-gray-400">{{ employment.company }}</span>, <span class="font-semibold">{{ employment.started }} - {{ employment.ended }}</span>
         </p>
         <div class="block mx-auto">
           <p class="max-w-xl py-2 text-sm">{{ employment.description }}</p>
